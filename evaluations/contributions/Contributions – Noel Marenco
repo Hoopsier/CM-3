@@ -1,0 +1,28 @@
+Contributions – Noel Marenco
+
+Features Implemented
+During this project, I implemented the Frontend V1 for the Vehicle Rental system.
+
+Key features I developed:
+	•	Frontend routing for Vehicle Rentals
+	•	Navbar navigation
+	•	Vehicle rental listing item component
+	•	Vehicle rental form component
+	•	Add vehicle rental flow
+	•	Form helper logic for handling rental form data
+
+Branches Created
+	•	feat/frontend-v1-vehicle-rentals – implemented Frontend V1 for Vehicle Rentals
+
+Commits and Pull Requests
+Examples of work committed:
+	•	App routes for vehicle rentals
+	•	Navbar and rental listing item
+	•	Vehicle rental form and helpers
+	•	Add vehicle rental flow
+
+Role in the Group Project
+My role was mainly in frontend development for API V1. I was responsible for:
+	•	Building the frontend structure for Vehicle Rentals
+	•	Creating reusable form components
+	•	Connecting the frontend to the Vehicle Rental API without authentication
