@@ -6,6 +6,16 @@ import {
   initialFormData,
 } from "../utils/vehicleRentalForm";
 
+const parseResponse = async (response) => {
+  const contentType = response.headers.get("content-type") || "";
+
+  if (contentType.includes("application/json")) {
+    return response.json();
+  }
+
+  return response.text();
+};
+
 const AddVehicleRentalPage = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState(initialFormData);
@@ -60,16 +70,29 @@ const AddVehicleRentalPage = () => {
         body: JSON.stringify(buildVehicleRentalPayload(formData)),
       });
 
+      const result = await parseResponse(response);
+
       if (!response.ok) {
-        throw new Error("Failed to create vehicle rental");
+        const message =
+          typeof result === "string"
+            ? result
+            : result?.message || "Failed to create vehicle rental";
+
+        throw new Error(message);
       }
 
-      const createdVehicleRental = await response.json();
-      const rentalId = createdVehicleRental.id || createdVehicleRental._id;
+      const rentalId = result?.id || result?._id;
+
+      if (!rentalId) {
+        throw new Error(
+          "Vehicle rental was created, but the response did not include an id."
+        );
+      }
 
       navigate(`/vehicleRentals/${rentalId}`);
     } catch (err) {
-      setError(err.message);
+      setError(err.message || "Something went wrong while creating the vehicle rental.");
+      console.error("AddVehicleRentalPage submit error:", err);
     } finally {
       setIsSubmitting(false);
     }
