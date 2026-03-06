@@ -1,50 +1,93 @@
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import VehicleRentalForm from "../components/VehicleRentalForm";
+import {
+  buildVehicleRentalPayload,
+  initialFormData,
+} from "../utils/vehicleRentalForm";
+
 const AddVehicleRentalPage = () => {
-  const submitForm = (e) => {
+  const navigate = useNavigate();
+  const [formData, setFormData] = useState(initialFormData);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState("");
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+
+    if (name.startsWith("agency.")) {
+      const field = name.split(".")[1];
+      setFormData((prev) => ({
+        ...prev,
+        agency: {
+          ...prev.agency,
+          [field]: value,
+        },
+      }));
+      return;
+    }
+
+    if (name.startsWith("location.")) {
+      const field = name.split(".")[1];
+      setFormData((prev) => ({
+        ...prev,
+        location: {
+          ...prev.location,
+          [field]: value,
+        },
+      }));
+      return;
+    }
+
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Form submitted");
+
+    try {
+      setIsSubmitting(true);
+      setError("");
+
+      const response = await fetch("/api/vehicleRentals", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(buildVehicleRentalPayload(formData)),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to create vehicle rental");
+      }
+
+      const createdVehicleRental = await response.json();
+      const rentalId = createdVehicleRental.id || createdVehicleRental._id;
+
+      navigate(`/vehicleRentals/${rentalId}`);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
-    <div className="create">
-      <h2>Add a New Vehicle Rental</h2>
-      <form onSubmit={submitForm}>
-        <label>Vehicle Model:</label>
-        <input type="text" required />
-        <label>Category:</label>
-        <select>
-          <option value="Economy">Economy</option>
-          <option value="Luxury">Luxury</option>
-          <option value="SUV">SUV</option>
-          <option value="Van">Van</option>
-          <option value="Truck">Truck</option>
-        </select>
-        <label>Description:</label>
-        <textarea required></textarea>
-        <label>Agency Name:</label>
-        <input type="text" required />
-        <label>Agency Email:</label>
-        <input type="email" required />
-        <label>Fleet Size:</label>
-        <input type="number" min="0" />
-        <label>City:</label>
-        <input type="text" required />
-        <label>State:</label>
-        <input type="text" required />
-        <label>Daily Price:</label>
-        <input type="number" step="0.01" min="0" required />
-        <label>Availability Status:</label>
-        <select>
-          <option value="available">Available</option>
-          <option value="rented">Rented</option>
-          <option value="maintenance">Maintenance</option>
-        </select>
-        <label>Booking Deadline:</label>
-        <input type="date" />
-        <label>Insurance Policy:</label>
-        <input type="text" required />
-        <button>Add Vehicle Rental</button>
-      </form>
-    </div>
+    <>
+      {error && <p className="error-message">Error: {error}</p>}
+
+      <VehicleRentalForm
+        title="Add a New Vehicle Rental"
+        formData={formData}
+        handleChange={handleChange}
+        handleSubmit={handleSubmit}
+        buttonText="Add Vehicle Rental"
+        isSubmitting={isSubmitting}
+      />
+    </>
   );
 };
 
