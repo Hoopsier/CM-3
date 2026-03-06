@@ -3,6 +3,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 // pages & components
 import Home from "./pages/HomePage";
 import AddVehicleRentalPage from "./pages/AddVehicleRentalPage";
+import EditVehicleRentalPage from "./pages/EditVehicleRentalPage";
+import VehicleRentalPage from "./pages/VehicleRentalPage";
 import Navbar from "./components/Navbar";
 import NotFoundPage from "./pages/NotFoundPage";
 
@@ -15,6 +17,8 @@ const App = () => {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/add-rental" element={<AddVehicleRentalPage />} />
+            <Route path="/vehicleRentals/:id" element={<VehicleRentalPage />} />
+            <Route path="/edit-rental/:id" element={<EditVehicleRentalPage />} />
             <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </div>
