@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const auth = require('../middleware/auth.js')
 const {
   getAllVehicleRentals,
   createVehicleRental,
@@ -11,11 +12,14 @@ const {
 // GET /api/vehicleRentals
 router.get('/', getAllVehicleRentals);
 
-// POST /api/vehicleRentals
-router.post('/', createVehicleRental);
 
 // GET /api/vehicleRentals/:vehicleRentalId
 router.get('/:vehicleRentalId', getVehicleRentalById);
+
+router.use(auth)
+
+// POST /api/vehicleRentals
+router.post('/', createVehicleRental);
 
 // PUT /api/vehicleRentals/:vehicleRentalId
 router.put('/:vehicleRentalId', updateVehicleRental);
