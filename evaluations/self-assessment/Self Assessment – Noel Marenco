@@ -1,0 +1,26 @@
+Self Assessment – Noel Marenco
+
+Code Quality and Functionality
+The frontend code was implemented using React and organized into pages, components, and utility logic.
+The code is structured to improve readability and reuse.
+
+Main aspects of the code quality:
+	•	Clear component structure
+	•	Reusable form component
+	•	Separation between UI and helper logic
+	•	Basic error handling in form submission
+	•	Routing for frontend pages
+
+Challenges Faced
+One of the main challenges was organizing the form logic correctly between components and utility files.
+I also had to debug import issues and make sure the frontend matched the expected API structure.
+
+What I Learned
+From this project I learned:
+	•	How to structure a React frontend for CRUD features
+	•	How to separate components from utility logic
+	•	How to handle form state with nested objects
+	•	How to debug import and response handling issues
+	•	How to use Git branches, commits, and rebasing in collaborative work
+
+Overall, this project helped me improve my React structure, debugging, and teamwork workflow.
