@@ -14,9 +14,12 @@ app.use(requestLogger);
 // Routes
 app.use('/api/vehicleRentals', vehicleRentalRouter);
 app.use('/api/users', userRouter)
-
+app.use(express.static('view'));
 // Error handling
 app.use(unknownEndpoint);
 app.use(errorHandler);
 
+app.use((req, res) => {
+  res.sendFile(__dirname + '/view/index.html');
+});
 module.exports = app;
