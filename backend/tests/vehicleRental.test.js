@@ -42,7 +42,7 @@ describe('Vehicle Rental API Testing', () => {
 
         expect(response.statusCode).toBe(201);
         expect(response.body).toHaveProperty('_id');
-        rentalId = response.body._id; // Store ID for the next tests
+        rentalId = response.body._id; 
     });
 
     // 3. GET BY ID
@@ -66,10 +66,8 @@ describe('Vehicle Rental API Testing', () => {
     // 5. DELETE
     test('DELETE /api/vehicleRentals/:id should remove the record', async () => {
         const response = await request(app).delete(`/api/vehicleRentals/${rentalId}`);
-        // Many APIs return 204 (No Content) or 200 (Success)
         expect([200, 204]).toContain(response.statusCode);
         
-        // Verify it's actually gone
         const checkExist = await request(app).get(`/api/vehicleRentals/${rentalId}`);
         expect(checkExist.statusCode).toBe(404);
     });
