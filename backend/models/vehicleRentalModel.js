@@ -56,7 +56,7 @@ const vehicleRentalSchema = new Schema(
       type: Date,
     },
     insurancePolicy: {
-      type: String,
+      type: String, 
       required: true,
     },
   },
